@@ -2,6 +2,8 @@ package day_4
 
 import utils.{Output, ReadFile}
 
+case class RangePair(first: Range.Inclusive, second: Range.Inclusive)
+
 object Main extends App {
 
   val day = 4
@@ -21,30 +23,31 @@ object Main extends App {
     .map(buildRanges)
     .count(overlaps)
 
-  def buildRanges(line: String): Seq[Range.Inclusive] = {
+  Output.printSolution(secondSolution, day, 2)
+
+  def buildRanges(line: String): RangePair = {
     val ranges = line.split(',')
     val r1 = ranges(0).split('-')
     val r2 = ranges(1).split('-')
 
-    Seq(
+    RangePair(
       Range.inclusive(r1(0).toInt, r1(1).toInt),
       Range.inclusive(r2(0).toInt, r2(1).toInt)
     )
   }
 
-  def includes(ranges: Seq[Range.Inclusive]): Boolean = {
-    val r1 = ranges.head
-    val r2 = ranges.last
+  def includes(rangePair: RangePair): Boolean = {
+    val r1 = rangePair.first
+    val r2 = rangePair.second
 
     (r1.start <= r2.start && r1.last >= r2.last) || (r1.start >= r2.start && r1.last <= r2.last)
   }
 
-  def overlaps(ranges: Seq[Range.Inclusive]): Boolean = {
-    val r1 = ranges.head
-    val r2 = ranges.last
+  def overlaps(ranges: RangePair): Boolean = {
+    val r1 = ranges.first
+    val r2 = ranges.second
 
     !(r1.last < r2.start || r1.start > r2.last)
   }
 
-  Output.printSolution(secondSolution, day, 2)
 }
