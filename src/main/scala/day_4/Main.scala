@@ -2,7 +2,8 @@ package day_4
 
 import utils.{Output, ReadFile}
 
-case class RangePair(first: Range.Inclusive, second: Range.Inclusive)
+case class RangePair(first: IntRange, second: IntRange)
+case class IntRange(start: Int, last: Int)
 
 object Main extends App {
 
@@ -31,8 +32,8 @@ object Main extends App {
     val r2 = ranges(1).split('-')
 
     RangePair(
-      Range.inclusive(r1(0).toInt, r1(1).toInt),
-      Range.inclusive(r2(0).toInt, r2(1).toInt)
+      IntRange(r1(0).toInt, r1(1).toInt),
+      IntRange(r2(0).toInt, r2(1).toInt)
     )
   }
 
@@ -47,7 +48,7 @@ object Main extends App {
     val r1 = ranges.first
     val r2 = ranges.second
 
-    !(r1.last < r2.start || r1.start > r2.last)
+    r1.last >= r2.start && r1.start <= r2.last
   }
 
 }
